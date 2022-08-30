@@ -1,6 +1,8 @@
-function User(props)  {
+import './User.css';
+
+function User(props) {
   return (
-    <div>
+    <div className="user">
       <div>Firstname: {props.firstName}</div>
       <div>Lastname: {props.lastName}</div>
     </div>
