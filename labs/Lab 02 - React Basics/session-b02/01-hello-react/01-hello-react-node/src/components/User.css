@@ -1,0 +1,11 @@
+.user {
+  color: red;
+}
+
+.user > .first-name {
+  color: green;
+}
+
+.user > .last-name {
+  color: darkgray;
+}
