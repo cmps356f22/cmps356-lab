@@ -1,4 +1,4 @@
-import { useState, useMemo, useReducer } from "react";
+import { useReducer } from "react";
 import "../styles/globals.css";
 import Theme from "../themes/theme";
 import { faker } from "@faker-js/faker";
@@ -47,6 +47,11 @@ const reducer = (state, action) => {
         return newState;
       }
     }
+    case "REMOVE_ITEM": {
+      const newState = [...state];
+      newState = newState.filter((item) => item.id !== action.payload);
+      return newState;
+    }
     default:
       return state;
   }
@@ -54,8 +59,6 @@ const reducer = (state, action) => {
 
 function MyApp({ Component, pageProps }) {
   const [state, dispatch] = useReducer(reducer, []);
-
-  // const detailedCart = useMemo(() => {}, [cart]);
 
   return (
     <Theme>
