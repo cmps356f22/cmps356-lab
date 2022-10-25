@@ -10,8 +10,11 @@ import {
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
+import { useStoreContext } from "contexts/context";
 
-export default function Product({ product, state, dispatch }) {
+export default function Product({ product }) {
+  const { state, dispatch } = useStoreContext();
+
   const decrease = (event) => {
     dispatch({ type: "DECREASE_QUANTITY", payload: product.id });
   };
@@ -44,7 +47,8 @@ export default function Product({ product, state, dispatch }) {
       <CardActions>
         <IconButton
           disabled={
-            (state.find((item) => item.id === product.id)?.quantity ?? 0) < 1
+            (state.cart.find((item) => item.id === product.id)?.quantity ?? 0) <
+            1
           }
           onClick={decrease}
         >
@@ -56,7 +60,7 @@ export default function Product({ product, state, dispatch }) {
               disabled
               variant="outlined"
               value={
-                state.find((item) => item.id === product.id)?.quantity ?? 0
+                state.cart.find((item) => item.id === product.id)?.quantity ?? 0
               }
             />
           </Typography>

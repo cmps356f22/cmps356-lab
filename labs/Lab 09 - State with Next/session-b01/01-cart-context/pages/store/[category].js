@@ -3,29 +3,25 @@ import { useRouter } from "next/router";
 import { Container } from "@mui/material";
 import Header from "components/header";
 import Products from "components/products";
+import { useStoreContext } from "contexts/context";
 
-export default function Store({
-  products: allProducts,
-  categories,
-  state,
-  dispatch,
-}) {
+export default function Store() {
+  const { state, dispatch } = useStoreContext();
+
   const router = useRouter();
   const { category } = router.query;
   const products = useMemo(
-    () => allProducts.filter((product) => product.category === category),
+    () =>
+      category == "all"
+        ? state.products
+        : state.products.filter((product) => product.category === category),
     [category]
   );
 
   return (
     <Container maxWidth="lg" sx={{ padding: "20px 0" }}>
-      <Header
-        state={state}
-        dispatch={dispatch}
-        categories={categories}
-        products={products}
-      />
-      <Products products={products} state={state} dispatch={dispatch} />
+      <Header category={category} />
+      <Products products={products} />
       <Container component="footer"></Container>
     </Container>
   );
