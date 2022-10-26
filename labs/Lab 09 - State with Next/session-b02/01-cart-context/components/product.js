@@ -10,27 +10,17 @@ import {
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
+import { useStoreContext } from "contexts/context";
 
-export default function Product({ product, cart, setCart }) {
+export default function Product({ product }) {
+  const { state, dispatch } = useStoreContext();
+
   const decrease = () => {
-    setCart((cart) => {
-      const newCart = { ...cart };
-
-      if (newCart[product.id] == 1) {
-        delete newCart[product.id];
-      } else {
-        newCart[product.id] -= 1;
-      }
-
-      return newCart;
-    });
+    dispatch({ type: "DECREASE", payload: { id: product.id } });
   };
+
   const increase = () => {
-    setCart((cart) => {
-      const newCart = { ...cart };
-      newCart[product.id] = (newCart[product.id] ?? 0) + 1;
-      return newCart;
-    });
+    dispatch({ type: "INCREASE", payload: { id: product.id } });
   };
 
   return (
@@ -61,11 +51,11 @@ export default function Product({ product, cart, setCart }) {
         <IconButton
           sx={{ margin: "0 10px" }}
           onClick={decrease}
-          disabled={!(cart[product.id] ?? 0)}
+          disabled={!(state.cart[product.id] ?? 0)}
         >
           <RemoveIcon />
         </IconButton>
-        <TextField disabled value={cart[product.id] ?? 0} />
+        <TextField disabled value={state.cart[product.id] ?? 0} />
         <IconButton sx={{ margin: "0 10px" }} onClick={increase}>
           <AddIcon />
         </IconButton>

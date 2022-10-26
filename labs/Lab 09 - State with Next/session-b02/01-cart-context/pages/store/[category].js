@@ -1,27 +1,28 @@
 import { useRouter } from "next/router";
-import Link from "next/link";
 import { Container } from "@mui/material";
 import Products from "components/products";
 import Header from "components/header";
+import { useStoreContext } from "contexts/context";
 
-export default function Store({ cart, setCart, products, categories }) {
+export default function Store() {
+  const { state } = useStoreContext();
+
   const router = useRouter();
   const { category } = router.query;
 
   return (
     <Container sx={{ padding: "10px" }}>
-      <Header
-        cart={cart}
-        categories={categories}
-        category={category}
-        products={products}
-      />
+      <Header category={category} />
 
       <Container component="main">
         <Products
-          products={products.filter((product) => product.category === category)}
-          cart={cart}
-          setCart={setCart}
+          products={
+            category === "all"
+              ? state.products
+              : state.products.filter(
+                  (product) => product.category === category
+                )
+          }
         />
       </Container>
 
