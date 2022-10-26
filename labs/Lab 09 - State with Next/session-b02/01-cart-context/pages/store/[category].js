@@ -9,21 +9,17 @@ export default function Store() {
 
   const router = useRouter();
   const { category } = router.query;
+  const products =
+    category === "all"
+      ? state.products
+      : state.products.filter((product) => product.category === category);
 
   return (
     <Container sx={{ padding: "10px" }}>
       <Header category={category} />
 
       <Container component="main">
-        <Products
-          products={
-            category === "all"
-              ? state.products
-              : state.products.filter(
-                  (product) => product.category === category
-                )
-          }
-        />
+        <Products products={products} />
       </Container>
 
       {/* footer */}
