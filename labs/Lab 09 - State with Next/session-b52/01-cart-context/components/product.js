@@ -10,41 +10,17 @@ import {
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
+import { useStoreContext } from "contexts/context";
 
-export default function Product({ product, cart, setCart }) {
+export default function Product({ product }) {
+  const { state, dispatch } = useStoreContext();
+
   const decrease = (event) => {
-    setCart((prevCart) => {
-      const cart = [...prevCart];
-      const index = cart.findIndex((item) => item.id === product.id);
-
-      if (index !== -1) {
-        if (cart[index].quantity === 1) {
-          cart.splice(index, 1);
-        } else {
-          cart[index].quantity -= 1;
-        }
-      }
-
-      return cart;
-    });
+    dispatch({ type: "DECREASE", payload: { id: product.id } });
   };
 
   const increase = (event) => {
-    console.log("INCREASE", product.id);
-
-    setCart((prevCart) => {
-      const cart = [...prevCart];
-      const index = cart.findIndex((item) => item.id === product.id);
-
-      if (index !== -1) {
-        cart[index].quantity += 1;
-      } else {
-        cart.push({ id: product.id, quantity: 1 });
-      }
-
-      console.log("INCREASE SET", product.id);
-      return cart;
-    });
+    dispatch({ type: "INCREASE", payload: { id: product.id } });
   };
 
   return (
@@ -71,7 +47,7 @@ export default function Product({ product, cart, setCart }) {
         <IconButton
           size="small"
           onClick={decrease}
-          disabled={!cart.find((item) => item.id === product.id)}
+          disabled={!state.cart.find((item) => item.id === product.id)}
           sx={{ margin: "0 10px 0 5px" }}
         >
           <RemoveIcon />
@@ -79,7 +55,9 @@ export default function Product({ product, cart, setCart }) {
         <TextField
           size="small"
           disabled
-          value={cart.find((item) => item.id === product.id)?.quantity ?? 0}
+          value={
+            state.cart.find((item) => item.id === product.id)?.quantity ?? 0
+          }
         />
         <IconButton
           size="small"

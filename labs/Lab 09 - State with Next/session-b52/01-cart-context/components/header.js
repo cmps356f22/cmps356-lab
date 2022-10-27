@@ -1,19 +1,16 @@
 import { Button, Container, Stack } from "@mui/material";
 import Link from "next/link";
 import CartButton from "components/cart-button";
+import { useStoreContext } from "contexts/context";
 
-export default function Header({
-  category: activeCategory,
-  categories,
-  products,
-  cart,
-  setCart,
-}) {
+export default function Header({ category: activeCategory }) {
+  const { state, dispatch } = useStoreContext();
+
   return (
     <Container component="header" sx={{ padding: "10px 0 15px" }}>
       <Stack component="nav" direction="row" justifyContent="space-between">
         <Stack direction="row" spacing={1}>
-          {categories.map((category) => (
+          {state.categories.map((category) => (
             <Link href={`/store/${category}`}>
               <Button
                 size="small"
@@ -25,7 +22,7 @@ export default function Header({
           ))}
         </Stack>
         <Stack direction="row" spacing={1}>
-          <CartButton products={products} cart={cart} setCart={setCart} />
+          <CartButton />
         </Stack>
       </Stack>
     </Container>

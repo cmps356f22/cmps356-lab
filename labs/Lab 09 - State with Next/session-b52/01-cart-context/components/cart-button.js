@@ -2,20 +2,22 @@ import { useState } from "react";
 import { Button } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import CartDialog from "components/cart-dialog";
+import { useStoreContext } from "contexts/context";
 
-export default function CartButton({ cart, setCart, products }) {
+export default function CartButton() {
+  const { state, dispatch } = useStoreContext();
   const [open, setOpen] = useState();
 
   return (
     <>
-      <CartDialog open={open} setOpen={setOpen} cart={cart} setCart={setCart} />
+      <CartDialog open={open} setOpen={setOpen} />
       <Button size="small" onClick={() => setOpen(true)}>
-        {cart.reduce((total, val) => total + val.quantity, 0)} | $
-        {cart.reduce(
+        {state.cart.reduce((total, val) => total + val.quantity, 0)} | $
+        {state.cart.reduce(
           (total, val) =>
             total +
             val.quantity *
-              products.find((product) => product.id === val.id).price,
+              state.products.find((product) => product.id === val.id).price,
           0
         )}
         <ShoppingCartIcon sx={{ paddingLeft: "10px" }} />
