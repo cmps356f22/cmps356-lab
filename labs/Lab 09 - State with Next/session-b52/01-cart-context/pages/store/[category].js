@@ -24,6 +24,7 @@ export default function Store({ products, categories, cart, setCart }) {
         category={category}
         categories={categories}
         cart={cart}
+        setCart={setCart}
         products={products}
       />
       <Container component="main">

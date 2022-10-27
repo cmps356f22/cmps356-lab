@@ -1,6 +1,6 @@
 import { Dialog, DialogTitle } from "@mui/material";
 
-export default function CartDialog({ open, setOpen }) {
+export default function CartDialog({ open, setOpen, cart, setCart }) {
   const handleClose = () => {
     setOpen(false);
   };

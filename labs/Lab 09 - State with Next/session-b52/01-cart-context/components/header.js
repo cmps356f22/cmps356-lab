@@ -7,6 +7,7 @@ export default function Header({
   categories,
   products,
   cart,
+  setCart,
 }) {
   return (
     <Container component="header" sx={{ padding: "10px 0 15px" }}>
@@ -24,7 +25,7 @@ export default function Header({
           ))}
         </Stack>
         <Stack direction="row" spacing={1}>
-          <CartButton products={products} cart={cart} />
+          <CartButton products={products} cart={cart} setCart={setCart} />
         </Stack>
       </Stack>
     </Container>
