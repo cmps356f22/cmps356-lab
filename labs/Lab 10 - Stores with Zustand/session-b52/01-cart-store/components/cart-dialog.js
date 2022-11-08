@@ -11,15 +11,14 @@ import { useStore } from "stores/store";
 
 export default function CartDialog({ open, setOpen }) {
   const cart = useStore((state) => state.cart);
-  const products = useStore((state) => state.products);
-  const dispatch = useStore((state) => state.dispatch);
+  const _remove = useStore((state) => state.remove);
 
   const handleClose = () => {
     setOpen(false);
   };
 
   const remove = (id) => {
-    dispatch({ type: "REMOVE", payload: { id } });
+    _remove(id);
   };
 
   return (
@@ -29,13 +28,8 @@ export default function CartDialog({ open, setOpen }) {
         {cart.map((item) => (
           <ListItem key={item.id}>
             <ListItemText
-              primary={`${item.quantity} × ${
-                products.find((product) => product.id === item.id).name
-              }`}
-              secondary={`$${
-                item.quantity *
-                products.find((product) => product.id === item.id).price
-              }`}
+              primary={`${item.quantity} × ${item.name}`}
+              secondary={`$${item.quantity * item.price}`}
             />
             <IconButton
               sx={{ marginLeft: "10px" }}

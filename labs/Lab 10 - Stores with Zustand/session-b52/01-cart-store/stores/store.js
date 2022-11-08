@@ -1,4 +1,5 @@
 import create from "zustand";
+import { persist, devtools } from "zustand/middleware";
 
 import { faker } from "@faker-js/faker";
 
@@ -12,28 +13,36 @@ const products = [...Array(50)].map(() => ({
   category: categories[Math.floor(Math.random() * (categories.length - 1)) + 1],
 }));
 
-const initialState = {
+// import { redux } from "zustand/middleware";
+// const store = create(redux(reducer, initialState));
+
+const store = (set) => ({
   cart: [],
   products,
   categories,
-};
 
-const reducer = (state, action) => {
-  switch (action.type) {
-    case "INCREASE": {
+  increase: (product) =>
+    set((state) => {
       const cart = [...state.cart];
-      const index = cart.findIndex((item) => item.id === action.payload.id);
+      const index = cart.findIndex((item) => item.id === product.id);
 
       if (index !== -1) {
         cart[index].quantity += 1;
       } else {
-        cart.push({ id: action.payload.id, quantity: 1 });
+        cart.push({
+          id: product.id,
+          quantity: 1,
+          price: product.price,
+          name: product.name,
+        });
       }
       return { ...state, cart };
-    }
-    case "DECREASE": {
+    }),
+
+  decrease: (product) =>
+    set((state) => {
       const cart = [...state.cart];
-      const index = cart.findIndex((item) => item.id === action.payload.id);
+      const index = cart.findIndex((item) => item.id === product.id);
 
       if (index !== -1) {
         if (cart[index].quantity === 1) {
@@ -44,25 +53,18 @@ const reducer = (state, action) => {
       }
 
       return { ...state, cart };
-    }
-    case "REMOVE": {
+    }),
+
+  remove: (id) =>
+    set((state) => {
       const cart = [...state.cart];
-      const index = cart.findIndex((item) => item.id === action.payload.id);
+      const index = cart.findIndex((item) => item.id === id);
 
       if (index !== -1) {
         cart.splice(index, 1);
       }
       return { ...state, cart };
-    }
-    default:
-      return state;
-  }
-};
-
-const store = (set) => ({
-  ...initialState,
-
-  dispatch: (action) => set((state) => reducer(state, action)),
+    }),
 });
 
-export const useStore = create(store);
+export const useStore = create(devtools(persist(store, { name: "store" })));

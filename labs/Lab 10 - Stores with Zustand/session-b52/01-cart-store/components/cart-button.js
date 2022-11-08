@@ -6,7 +6,6 @@ import { useStore } from "stores/store";
 
 export default function CartButton() {
   const cart = useStore((state) => state.cart);
-  const products = useStore((state) => state.products);
 
   const [open, setOpen] = useState();
 
@@ -15,13 +14,7 @@ export default function CartButton() {
       <CartDialog open={open} setOpen={setOpen} />
       <Button size="small" onClick={() => setOpen(true)}>
         {cart.reduce((total, val) => total + val.quantity, 0)} | $
-        {cart.reduce(
-          (total, val) =>
-            total +
-            val.quantity *
-              products.find((product) => product.id === val.id).price,
-          0
-        )}
+        {cart.reduce((total, val) => total + val.quantity * val.price, 0)}
         <ShoppingCartIcon sx={{ paddingLeft: "10px" }} />
       </Button>
     </>

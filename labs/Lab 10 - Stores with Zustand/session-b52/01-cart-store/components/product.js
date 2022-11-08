@@ -14,14 +14,15 @@ import { useStore } from "stores/store";
 
 export default function Product({ product }) {
   const cart = useStore((state) => state.cart);
-  const dispatch = useStore((state) => state.dispatch);
+  const _decrease = useStore((state) => state.decrease);
+  const _increase = useStore((state) => state.increase);
 
   const decrease = (event) => {
-    dispatch({ type: "DECREASE", payload: { id: product.id } });
+    _decrease(product);
   };
 
   const increase = (event) => {
-    dispatch({ type: "INCREASE", payload: { id: product.id } });
+    _increase(product);
   };
 
   return (
