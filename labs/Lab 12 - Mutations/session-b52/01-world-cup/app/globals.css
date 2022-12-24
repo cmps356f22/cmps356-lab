@@ -1,0 +1,42 @@
+html {
+  height: 100%;
+}
+
+body {
+  height: 100vh;
+
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas:
+    "header"
+    "main"
+    "footer";
+}
+
+header {
+  grid-area: header;
+}
+
+main {
+  grid-area: main;
+  padding: 15px 5px 10px 5px;
+}
+
+main > div,
+/* main > div > div, */
+/* main > div > div > div */ {
+  height: 100%;
+}
+
+footer {
+  display: grid;
+  justify-content: center;
+  grid-area: footer;
+  padding: 20px;
+}
+
+a {
+  text-decoration: none;
+  color: reset;
+}
